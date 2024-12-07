@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="nl">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/css/style.css" text="text/css">
+    <link rel="stylesheet" href="../resources/css/prijzen.css" text="text/css">
+    <script src="../resources/scripts/prijzenCalender.js"></script>
+    <title>Sonnenwiese - prijzen</title>
+  </head>
+
+  <div class="inner-background">
+    <header>
+      <h1>Sonnenwiese</h1>
+      <div class="searchbar">
+        <h2>Zoekbar</h2>
+        <form action="" method="post" role="search"></form>
+        <label for="searchbar-text"></label>
+        <input type="search" name="searchbar" id="searchbar-text" maxlength="200" size="20" placeholder="Zoeken...">
+      </div>
+      <ul>
+        <li><a href="../index.html">Algemeen</a></li>
+        <li><a href="./fotos.html">Foto's</a></li>
+        <li><a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a></li>
+        <li><a href="./voorwaarden.html">Voorwaarden</a></li>
+        <li><a href="">Links</a></li>
+        <li><a href="">Route</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
+    </header>
+
+
+    <body>
+      <section class="main">
+        <h1>Prijzen 2024/2025</h1>
+        <h3>Zomer/Winter</h3>
+
+        <p>
+          Prijzen zijn per week en de eindschoonmaak wordt één keer bij de totaalprijs gerekend. <br>
+          Hoogseizoen is in de zomer van 01/07 tot 01/09 en in de winter van 21/12/24 tot 05/01/25. <br>
+          Laagseizoen is het tijdvak buiten het hoogseizoen.
+        </p>
+
+        <section id="summer">
+          <h2>Prijzen zomer 2024/2025</h2>
+          <ul>
+            <li>Hoogseizoen:</li><li>€650,-</li>
+            <li>Laagseizoen:</li><li>€450,-</li>
+            <li>Eindschoonmaak</li><li>€50,-</li>
+          </ul>
+        </section>
+
+        <section id="winter">
+          <h2>Prijzen winter 2024/2025</h2>
+          <ul>
+            <li>Hoogseizoen:</li>
+            <li>€1750,-</li>
+            <li>Laagseizoen:</li>
+            <li>€900,-</li>
+            <li>Eindschoonmaak</li>
+            <li>€50,-</li>
+          </ul>
+        </section>
+
+        <section class="availability">
+          <h1>Beschikbaarheid</h1>
+          <p>
+            Hieronder kunt u in onze agenda de tijdsperiode kiezen die u wenst te huren. <br>
+            Ook ziet u hier welke data beschikbaar zijn, welke al geboekt zijn en wat de prijs is van uw verblijf.
+          </p>
+
+          <section class="calender">
+            <button class="prev-month-button" onclick="prevMonth()">&#10094;</button>
+            <div class="calender-header">
+              <div class="month-year">
+                <div id="month"></div>
+                <div id="year"></div>
+              </div>
+            </div>
+            <button class="next-month-button" onclick="nextMonth()">&#10095;</button>
+            <div class="calender-days">
+              <div id="monday" class="weekdays">Maandag</div>
+              <div id="tuesday" class="weekdays">Dinsdag</div>
+              <div id="wednesday" class="weekdays">Woensdag</div>
+              <div id="thursday" class="weekdays">Donderdag</div>
+              <div id="friday" class="weekdays">Vrijdag</div>
+              <div id="saturday" class="weekdays">Zaterdag</div>
+              <div id="sunday" class="weekdays">Zondag</div>
+            </div>
+            <div class="calender-dates">
+              <button class="current-month">1</button>
+              <button class="current-month">2</button>
+              <button class="current-month">3</button>
+              <button class="current-month">4</button>
+              <button class="current-month">5</button>
+              <button class="current-month">6</button>
+              <button class="current-month">7</button>
+              <button class="current-month">8</button>
+              <button class="current-month">9</button>
+              <button class="current-month">10</button>
+              <button class="current-month">11</button>
+              <button class="current-month">12</button>
+              <button class="current-month">13</button>
+              <button class="current-month">14</button>
+              <button class="current-month">15</button>
+              <button class="current-month">16</button>
+              <button class="current-month">17</button>
+              <button class="current-month">18</button>
+              <button class="current-month">19</button>
+              <button class="current-month">20</button>
+              <button class="current-month">21</button>
+              <button class="current-month">22</button>
+              <button class="current-month">23</button>
+              <button class="current-month">24</button>
+              <button class="current-month">25</button>
+              <button class="current-month">26</button>
+              <button class="current-month">27</button>
+              <button class="current-month">28</button>
+              <button class="current-month">29</button>
+              <button class="current-month">30</button>
+              <button class="current-month">31</button>
+              <button class="other-month">1</button>
+              <button class="other-month">2</button>
+              <button class="other-month">3</button>
+              <button class="other-month">4</button>
+            </div>
+          </section>
+        </section>
+
+
+      </section>
+    </body>
+
+
+    <footer>
+      <h6>Sonnenwiese</h6>
+      <ul>
+        <li><a href="../index.html">Algemeen</a></li>
+        <li><a href="./fotos.html">Foto's</a></li>
+        <li><a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a></li>
+        <li><a href="./voorwaarden.html">Voorwaarden</a></li>
+        <li><a href="">Links</a></li>
+        <li><a href="">Route</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
+    </footer>
+  </div>
+  <script src="../resources/scripts/prijzenCalender.js" defer></script>
+</html>
