@@ -30,7 +30,7 @@
 
 
 /* Calender */
-.calender {
+#calender {
   display: grid;
   grid-template-areas:
     "prev   header  header  header  header  header  next"
@@ -39,7 +39,11 @@
   grid-template-columns: auto 1fr auto;
   width: 75%;
   margin: 2rem auto;
+  margin-bottom: 1rem;
   border: 1px solid #05005b;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-radius: 2rem;
+  background-color: #00caca;
 }
 
 .calendar-header {
@@ -83,16 +87,17 @@
 }
 
 button {
-  border: none;
-  background-color: inherit;
   cursor: pointer;
   padding: 0.5rem;
-  border: 1px solid lightgray;
+  border: 1px solid black;
 }
 
-button:active {
-  background-color: #00caca;
-  color: white;
+button p {
+  margin: 0;
+}
+
+span {
+  font-size: 0.8rem;
 }
 
 .calender-days {
@@ -100,7 +105,6 @@ button:active {
   grid-area: days;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  background-color: #b3b3b3;
   font-weight: 600;
 }
 
@@ -113,11 +117,106 @@ button:active {
 }
 
 .weekdays {
-  border: 1px solid lightgray;
+  border: 1px solid black;
   padding: 0.5rem;
+  background-color: #3e9a9a;
 }
 
+.left-corner {
+  border-radius: 2rem 0 0 0;
+}
+
+.right-corner {
+  border-radius: 0 2rem 0 0;
+}
+
+
+
+/* Date layouts */
 .prev-month,
 .next-month {
-  background-color: #7bbbbb;
+  background-color: #167e7e;
+}
+
+.current-month {
+  background-color: #cceded;
+}
+
+.current-month.high-season {
+  background-color: #2fc0c0;
+}
+
+#blocked {
+  background-color: #7e1616;
+  cursor: default;
+  color: white
+}
+
+.selected,
+.high-season.selected {
+  background-color: rgb(0, 255, 255);
+}
+
+.current-month.high-season:active,
+.current-month:active {
+  background-color: #00e9e9;
+  color: white;
+}
+
+
+
+/* Legenda layout */
+#legenda li {
+  display: inline-flex;
+}
+
+#legenda ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+#legenda span {
+  font-size: 1rem;
+  margin-right: 1.5rem;
+  cursor: default;
+}
+
+#legenda li div {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 1px solid black;
+  margin-right: 1rem;
+}
+
+.legenda-other-month {
+  background-color: #167e7e;
+}
+
+.legenda-blocked {
+  background-color: #7e1616;
+}
+
+.legenda-available {
+  background-color: #cceded;
+}
+
+.legenda-hseason {
+  background-color: #2fc0c0;
+}
+
+.legenda-selected {
+  background-color: #00e9e9;
+}
+
+
+
+/* Table layout */
+table {
+  margin: 1.5rem;
+}
+
+td {
+  font-size: 1.2rem;
+  padding-left: 1rem;
 }

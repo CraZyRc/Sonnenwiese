@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/css/style.css" text="text/css">
     <link rel="stylesheet" href="../resources/css/prijzen.css" text="text/css">
-    <!--<script src="../resources/scripts/Calender.js"></script>-->
     <title>Sonnenwiese - prijzen</title>
   </head>
 
@@ -71,7 +70,7 @@
             Ook ziet u hier welke data beschikbaar zijn, welke al geboekt zijn en wat de prijs is van uw verblijf.
           </p>
 
-          <section class="calender">
+          <section id="calender">
             <button class="prev-month-button" onclick="prevMonth()">&#10094;</button>
             <div class="calender-header">
               <div class="month-year">
@@ -81,51 +80,72 @@
             </div>
             <button class="next-month-button" onclick="nextMonth()">&#10095;</button>
             <div class="calender-days">
-              <div id="monday" class="weekdays">Maandag</div>
+              <div id="monday" class="weekdays left-corner">Maandag</div>
               <div id="tuesday" class="weekdays">Dinsdag</div>
               <div id="wednesday" class="weekdays">Woensdag</div>
               <div id="thursday" class="weekdays">Donderdag</div>
               <div id="friday" class="weekdays">Vrijdag</div>
               <div id="saturday" class="weekdays">Zaterdag</div>
-              <div id="sunday" class="weekdays">Zondag</div>
+              <div id="sunday" class="weekdays right-corner">Zondag</div>
             </div>
             <div class="calender-dates">
-              <button class="current-month">1</button>
-              <button class="current-month">2</button>
-              <button class="current-month">3</button>
-              <button class="current-month">4</button>
-              <button class="current-month">5</button>
-              <button class="current-month">6</button>
-              <button class="current-month">7</button>
-              <button class="current-month">8</button>
-              <button class="current-month">9</button>
-              <button class="current-month">10</button>
-              <button class="current-month">11</button>
-              <button class="current-month">12</button>
-              <button class="current-month">13</button>
-              <button class="current-month">14</button>
-              <button class="current-month">15</button>
-              <button class="current-month">16</button>
-              <button class="current-month">17</button>
-              <button class="current-month">18</button>
-              <button class="current-month">19</button>
-              <button class="current-month">20</button>
-              <button class="current-month">21</button>
-              <button class="current-month">22</button>
-              <button class="current-month">23</button>
-              <button class="current-month">24</button>
-              <button class="current-month">25</button>
-              <button class="current-month">26</button>
-              <button class="current-month">27</button>
-              <button class="current-month">28</button>
-              <button class="current-month">29</button>
-              <button class="current-month">30</button>
-              <button class="current-month">31</button>
-              <button class="other-month">1</button>
-              <button class="other-month">2</button>
-              <button class="other-month">3</button>
-              <button class="other-month">4</button>
+              <!-- Fills with dates of the month-->
             </div>
+          </section>
+
+          <section id="legenda">
+            <ul>
+              <li><div class="legenda-other-month"></div><span>Vorige/Volgende maand</span></li>
+              <li><div class="legenda-blocked"></div><span>Onbeschikbaar</span></li>
+              <li><div class="legenda-available"></div><span>Beschikbaar</span></li>
+              <li><div class="legenda-hseason"></div><span>Hoogseizoen</span></li>
+              <li><div class="legenda-selected"></div><span>Geselecteerd</span></li>
+            </ul>
+          </section>
+
+          <section class="price-calculator">
+            <h1>Kosten</h1>
+            <p>
+              Selecteer in de agenda hierboven van welke datum tot welke datum wenst te reserveren (aankomstdatum/vertrekdatum). <br>
+              Vervolgens zult u hieronder de totale kosten van de tijdsperiode die u heeft geselecteerd.
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Geselecteerde data:</td>
+                  <td id="selected-price">€0,00</td>
+                </tr>
+                <tr>
+                  <td>Schoonmaak kosten:</td>
+                  <td>€50,00</td>
+                </tr>
+                <tr>
+                  <td>totale kosten:</td>
+                  <td id="total-price">€0,00</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section id="contact-form">
+            <h2>Vakantie aanvragen</h2>
+            <form action="send_email.php" method="post"> <!-- TODO: Add mail script-->
+              <label for="name">naam: </label>
+              <input type="text" id="name" name="name" required>
+            
+              <label for="phone-number">telefoonnummer: </label>
+              <input type="text" id="phone-number" name="phone-number" required></input>
+
+              <label for="email">email adres: </label>
+              <input type="text" id="email" name="email" required>
+
+              <label>Geselecteerde data: </label>
+              <div id="selected-dates-display">2023-10-15, 2023-10-16</div> <!-- TODO: replace placeholder for selected dates -->
+              <input type="hidden" id="selected-dates" name="selected_dates" value="2023-10-15, 2023-10-16"> <!-- Ditto for the value here -->
+            
+              <input type="submit" value="Aanvraag versturen">
+            </form>
+
           </section>
         </section>
 
