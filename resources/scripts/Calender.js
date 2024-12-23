@@ -1,3 +1,10 @@
+/**
+ * DEBUGGING
+ * 
+ * TODO: add stop when next button is blocked (also when between months)
+ */
+
+
 /* General */
 const Month = [ 'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December']
 let currentMonth = new Date().getMonth()
@@ -10,7 +17,11 @@ const pageMonth = document.getElementById('month')
 const pageDays = document.querySelector('.calender-dates')
 
 
-/* Configurable Settings */
+/** 
+ * Configurable Settings 
+ * These are to be adjustable via admin panel
+*/
+
 const highSummerPrice = '650,00'
 const lowSummerPrice = '450,00'
 const highWinterPrice = '1750,00'
@@ -18,13 +29,12 @@ const lowWinterPrice = '900,00'
 
 const blockedDates = ['2024-12-25', '2024-12-26']
 
-const summerStartDate = new Date(currentYear, 5, 21) // 21st of june
-const highSummerStart = new Date(currentYear, 6, 1) // first of july
-const highSummerEnd = new Date(currentYear, 8, 0) // last day of august
-
-const winterStartDate = new Date(currentYear, 11, 21) // 21st of december
-const highwinterStart = new Date(currentYear, 11, 21) // 21st of december
-const highwinterEnd = new Date(currentYear+1, 0, 5) // 5th of january next year
+const summerStartDate     =   new Date('2024-6-21')
+const winterStartDate     =   new Date('2024-12-21')
+const highSummerStartDate =   new Date('2024-7-1')
+const highSummerEndDate   =   new Date('2024-8-30')
+const highwinterStartDate =   new Date('2024-12-21')
+const highwinterEndDate   =   new Date('2025-1-5')
 
 
 
@@ -97,7 +107,7 @@ function setDays() {
     let price = document.createElement('span')
 
     
-    element = setPrice(element) // this has to be in front of the classList.add in order to correctly add all the classes
+    element = setSeasonalData(element)
     button.innerHTML = `<p>${element.day}</p>`
     button.dataset.day = element.day
     button.dataset.month = element.month
@@ -124,6 +134,42 @@ function removeOldDays() {
   while (pageDays.firstChild) {
     pageDays.removeChild(pageDays.firstChild)
   }
+}
+
+/**
+ * add the correct price/season to the element before creation
+ * gets triggered by setDays()
+ * @param {object} element 
+ * @returns element object with correct price/season class
+ */
+function setSeasonalData(element) {
+  let date = new Date(element.year, element.month, element.day)
+  let year = element.year
+
+  let summerStart =   new Date(year, summerStartDate.getMonth(), summerStartDate.getDate())
+  let winterStart =   new Date(year, winterStartDate.getMonth(), winterStartDate.getDate())
+  let highSummerStart =   new Date(year, highSummerStartDate.getMonth(), highSummerStartDate.getDate())
+  let highSummerEnd   =   new Date(year, highSummerEndDate.getMonth(), highSummerEndDate.getDate())
+  let highwinterStart =   new Date(element.month <= 0 ? year -1 : year, highwinterStartDate.getMonth(), highwinterStartDate.getDate())
+  let highwinterEnd   =   new Date(element.month >= 11 ? year + 1 : year, highwinterEndDate.getMonth(), highwinterEndDate.getDate())
+
+  if (date >= summerStart && date < winterStart) {
+    if (date >= highSummerStart && date <= highSummerEnd) {
+      element.price = highSummerPrice
+      element.tags.push('high-season')
+    } else {
+      element.price = lowSummerPrice
+    }
+  } else {
+    if (date >= highwinterStart && date <= highwinterEnd) {
+      element.price = highWinterPrice
+      element.tags.push('high-season')
+    } else {
+      element.price = lowWinterPrice
+    }
+  }
+
+  return element
 }
 
 /**
@@ -198,6 +244,7 @@ function prevMonth() {
 /* Data selection */
 
 let selectingStartDate = true
+let calculated = false
 let prices = [] 
 let selectionList = []
 let startDate = new Date()
@@ -219,10 +266,12 @@ function select(event) {
     startDate = new Date(currentYear, currentMonth, button.dataset.day)
     button.classList.add('selected')
     selectingStartDate = false
+    calculated = false
   } else {
     endDate = new Date(currentYear, currentMonth, button.dataset.day)
     selectingStartDate = true
     generateSelection(startDate, endDate)
+
   }
 }
 
@@ -242,20 +291,22 @@ function removeSelection() {
  * @param {Date} end 
  */
 function generateSelection(start, end) {
-  // add dates depending on date, so it'll always stop in front of a blocked date
-  if (start < end) {
-    do {
-      selectionList.push(new Date(start))
-      start.setDate(start.getDate() + 1)
-    } while (start <= end)
+  // add dates depending on ascending or descending, so it'll always stop in front of a blocked date
+  let starterDate = new Date(start)
+
+  if (starterDate < end) {
+    while (starterDate <= end) {
+      selectionList.push(new Date(starterDate))
+      starterDate.setDate(starterDate.getDate() + 1)     
+    }
   } else {
     do {
-      selectionList.push(new Date(start))
-      start.setDate(start.getDate() -1)
-    } while (start >= end)
+      selectionList.push(new Date(starterDate))
+      starterDate.setDate(starterDate.getDate() -1)
+    } while (starterDate >= end)
   }
 
-
+  // add selection class to selected elements
   selectionList.forEach(date => {
     let day = date.getDate()
     let month = date.getMonth()
@@ -263,10 +314,29 @@ function generateSelection(start, end) {
 
     if (month === currentMonth && year === currentYear) {
       let button = document.querySelector(`button[data-day='${day}'].current-month`)
-      let price = button.querySelector('span').innerText
 
       if (button && !button.classList.contains('prev-month') && !button.classList.contains('next-month')) {
         button.classList.add('selected')
+      }
+    }
+    
+  })
+
+  // add prices for selected range to priceList
+  selectionList.forEach(date => {
+    let day = date.getDate()
+    let month = date.getMonth()
+    let year = date.getFullYear()
+    let price = '0'
+
+    if (month === currentMonth && year === currentYear) {
+      let button = document.querySelector(`button[data-day='${day}'].current-month`)
+      if (button.id !== 'blocked') {
+        price = button.querySelector('span').innerText
+      }
+      
+
+      if (button && !button.classList.contains('prev-month') && !button.classList.contains('next-month')) {
         price = price.replace('€', '')
         price = parseFloat(price.replace(',', '.'))
         prices.push(price)
@@ -274,7 +344,53 @@ function generateSelection(start, end) {
     }
   })
 
+  unselectBlocked(start, end)
   calculatePrice()
+}
+
+/**
+ * removes selected date if a blocked date interferes with the selection
+ * gets triggered by generateSelection()
+ * @param {Date} start 
+ * @param {Date} end 
+ * TODO: (not neccecerily in this function, but remove the count of prices in dates that get unselected)
+ */
+function unselectBlocked(start, end) {
+  let hasBlocked = false
+  let selected = [...document.querySelectorAll('.selected')]
+
+
+  selected.forEach(element => {
+    if (element.id === 'blocked') hasBlocked = true
+  })
+
+  if (hasBlocked) {
+    if ((start.getMonth() > end.getMonth() && start.getFullYear() === end.getFullYear()) || start.getFullYear() > end.getFullYear()) {
+      for (let i = selected.length-1; i >= 0; i--) {
+        selected[i].classList.remove('selected')
+        if (selected[i].id === 'blocked') break
+      }
+    } else if ((start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()) || start.getFullYear() < end.getFullYear()) {
+      for (let i = 0; i <= selected.length; i++) {
+        selected[i].classList.remove('selected')
+        if (selected[i].id === 'blocked') break
+      }
+    } else {
+      if (start > end) {
+        for (let i = 0; i <= selected.length; i++) {
+          selected[i].classList.remove('selected')
+          if (selected[i].id === 'blocked') break
+        }
+      } else {
+        for (let i = selected.length-1; i >= 0; i--) {
+          selected[i].classList.remove('selected')
+          if (selected[i].id === 'blocked') break
+        }
+      }
+    }
+  
+  }
+
 }
 
 
@@ -289,30 +405,6 @@ function generateSelection(start, end) {
  */
 function formatNumber(number) {
   return number.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
-
-/**
- * Add the correct price to the element before creation
- * @param {object} element 
- * @returns element object with correct price/season class
- * TODO: make the summer/winter and high seasons check more open to config changes
- */
-function setPrice(element) {
-  let date = new Date(element.year, element.month, element.day)
-  
-  if (date.getMonth === 7 || date.getMonth === 8) { // is date inbetween july and august => set highseasonprice
-    element.price = highSummerPrice
-    element.tags.push('high-season')
-  } else if (date >= summerStartDate && date < winterStartDate) { // else if date is summer
-    element.price = lowSummerPrice
-  } else if (date >= highwinterStart && date < highwinterEnd) { // else if date is high season winter
-    element.price = highWinterPrice
-    element.tags.push('high-season')
-  } else { // else price must be low season winter
-    element.price = lowWinterPrice
-  }
-
-  return element
 }
 
 /**
@@ -355,17 +447,18 @@ function generatePrices(month) {
  * use to sum the total price of a selected Calender period
  * gets triggered upon making a selection
  * fills the table underneath the calender with the totals
- * TODO: add failsafe for month changing, now keeps on adding with each change of month
  */
 function calculatePrice() {
+
+  if (calculated) {
+    return
+  }
   let total = 0
   let selectedPrice = document.getElementById('selected-price')
   let totalPrice = document.getElementById('total-price')
 
   if (prices.length > 0) {
     prices.forEach(price => {
-      console.log(price)
-      console.log('total: ' + total)
       price = parseFloat(price)
       total = total + price
     })
@@ -376,4 +469,5 @@ function calculatePrice() {
   selectedPrice.innerText = `€${total}`
   final = formatNumber(final)
   totalPrice.innerText = `€${final}`
+  calculated = true
 }
