@@ -1,9 +1,8 @@
 /**
  * DEBUGGING
  * 
- * TODO: add stop when next button is blocked (also when between months)
+ * TODO: fix total price containing unselected data (data before/after blocked dates)
  */
-
 
 /* General */
 const Month = [ 'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December']
@@ -178,24 +177,25 @@ function setSeasonalData(element) {
  * @param {element} button 
  */
 function checkBlocked(element, button) {
-    let checkDate = new Date(element.year, element.month, element.day)
-    let containsDate = blockedDates.some(date => {
-        const blockedDate = new Date(date)
-        return blockedDate.getFullYear() === checkDate.getFullYear() &&
-               blockedDate.getMonth() === checkDate.getMonth() &&
-               blockedDate.getDate() === checkDate.getDate()
-    })
-    if (containsDate && element.tags.includes('current-month')) {
-        button.id = 'blocked'
-    }
+  let checkDate = new Date(element.year, element.month, element.day)
+  let containsDate = blockedDates.some(date => {
+      const blockedDate = new Date(date)
+      return blockedDate.getFullYear() === checkDate.getFullYear() &&
+             blockedDate.getMonth() === checkDate.getMonth() &&
+             blockedDate.getDate() === checkDate.getDate()
+  })
+  if (containsDate && element.tags.includes('current-month')) {
+      button.id = 'blocked'
+  }
 }
 
 
 
-/* Interactiion functions */
+/* Interaction functions */
 
 /**
  * Updates the calender to the new month/year
+ * gets triggered by the next/prev buttons
  */
 function updateCalender() {
   pageMonth.textContent = Month[currentMonth]
@@ -245,6 +245,7 @@ function prevMonth() {
 
 let selectingStartDate = true
 let calculated = false
+let hasBlocked = false;
 let prices = [] 
 let selectionList = []
 let startDate = new Date()
@@ -267,10 +268,13 @@ function select(event) {
     button.classList.add('selected')
     selectingStartDate = false
     calculated = false
+    hasBlocked = false
+    document.getElementById('calender-fault').style.display = 'none'
   } else {
     endDate = new Date(currentYear, currentMonth, button.dataset.day)
     selectingStartDate = true
     generateSelection(startDate, endDate)
+
 
   }
 }
@@ -296,12 +300,12 @@ function generateSelection(start, end) {
 
   if (starterDate < end) {
     while (starterDate <= end) {
-      selectionList.push(new Date(starterDate))
+      selectionList.unshift(new Date(starterDate))
       starterDate.setDate(starterDate.getDate() + 1)     
     }
   } else {
     do {
-      selectionList.push(new Date(starterDate))
+      selectionList.unshift(new Date(starterDate))
       starterDate.setDate(starterDate.getDate() -1)
     } while (starterDate >= end)
   }
@@ -337,13 +341,13 @@ function generateSelection(start, end) {
       
 
       if (button && !button.classList.contains('prev-month') && !button.classList.contains('next-month')) {
-        price = price.replace('€', '')
-        price = parseFloat(price.replace(',', '.'))
+        price = parsePrice(price)
         prices.push(price)
       }
     }
   })
 
+  if (hasBlocked) document.getElementById('calender-fault').style.display = 'block'
   unselectBlocked(start, end)
   calculatePrice()
 }
@@ -353,38 +357,62 @@ function generateSelection(start, end) {
  * gets triggered by generateSelection()
  * @param {Date} start 
  * @param {Date} end 
- * TODO: (not neccecerily in this function, but remove the count of prices in dates that get unselected)
  */
 function unselectBlocked(start, end) {
-  let hasBlocked = false
   let selected = [...document.querySelectorAll('.selected')]
+  let price = ''
 
 
   selected.forEach(element => {
-    if (element.id === 'blocked') hasBlocked = true
+    //setBlocked if blocked date is in currentMonth
+    if (element.id === 'blocked') {
+      hasBlocked = true
+      document.getElementById('calender-fault').style.display = 'block'
+    }
   })
 
   if (hasBlocked) {
     if ((start.getMonth() > end.getMonth() && start.getFullYear() === end.getFullYear()) || start.getFullYear() > end.getFullYear()) {
       for (let i = selected.length-1; i >= 0; i--) {
         selected[i].classList.remove('selected')
-        if (selected[i].id === 'blocked') break
+
+        if (selected[i].id === 'blocked') {
+          break
+        }
+
+        price = selected[i].querySelector('span').innerText
+        price = parsePrice(price)
+        prices.splice(prices.indexOf(price), 1)
+
       }
     } else if ((start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()) || start.getFullYear() < end.getFullYear()) {
-      for (let i = 0; i <= selected.length; i++) {
+      for (let i = 0; i < selected.length; i++) {
         selected[i].classList.remove('selected')
+
         if (selected[i].id === 'blocked') break
+
+        price = selected[i].querySelector('span').innerText
+        price = parsePrice(price)
+        prices.splice(prices.indexOf(price), 1)
       }
     } else {
       if (start > end) {
         for (let i = 0; i <= selected.length; i++) {
           selected[i].classList.remove('selected')
           if (selected[i].id === 'blocked') break
+
+          price = selected[i].querySelector('span').innerText
+          price = parsePrice(price)
+          prices.splice(prices.indexOf(price), 1)
         }
       } else {
         for (let i = selected.length-1; i >= 0; i--) {
           selected[i].classList.remove('selected')
           if (selected[i].id === 'blocked') break
+
+          price = selected[i].querySelector('span').innerText
+          price = parsePrice(price)
+          prices.splice(prices.indexOf(price), 1)
         }
       }
     }
@@ -413,34 +441,62 @@ function formatNumber(number) {
  * @param {string} month , either 'prev' or 'next'
  */
 function generatePrices(month) {
+  let price = '0'
   if (selectingStartDate) {
     return
   }
 
   if (month === 'prev') {
     let start = new Date(currentYear, currentMonth, 1)
+    let startingDate = new Date(startDate)
 
-    while (start <= startDate) {
-      let button = document.querySelector(`button[data-day='${start.getDate()}'].current-month`)
-      let price = button.querySelector('span').innerText
-      price = price.replace('€', '')
-      price = parseFloat(price.replace(',', '.'))
+    // Work from starting date to the beginning of the month
+    while (start <= startingDate) {
+      let button = document.querySelector(`button[data-day='${startingDate.getDate()}'].current-month`)
+      if (button.id !== 'blocked') {
+        price = button.querySelector('span').innerText
+      } else {
+        hasBlocked = true
+        break
+      }
+      price = parsePrice(price)
       prices.push(price)
-      start.setDate(start.getDate() + 1)
+      startingDate.setDate(startingDate.getDate() - 1)
     }
   } else if (month === 'next') {
     let start = new Date(currentYear, currentMonth +1, 0)
+    let startingDate = new Date(startDate)
 
-    while (start >= startDate) {
-      let button = document.querySelector(`button[data-day='${start.getDate()}'].current-month`)
-      let price = button.querySelector('span').innerText
-      price = price.replace('€', '')
-      price = parseFloat(price.replace(',', '.'))
+    // work from the starting date to the end of the month
+    while (start >= startingDate) {
+      let button = document.querySelector(`button[data-day='${startingDate.getDate()}'].current-month`)
+      if (button.id !== 'blocked') {
+        price = button.querySelector('span').innerText
+      } else {
+        hasBlocked = true
+        break
+      }
+      price = parsePrice(price)
       prices.push(price)
-      start.setDate(start.getDate() - 1)
+      startingDate.setDate(startingDate.getDate() + 1)
     }
 
   }
+}
+
+/**
+ * takes a price string and formats it to the correct number
+ * strings may only only contain: '€{number},{number}'. e.g. '€24,50' becomes 24.50
+ * @param {string} price, also accepts numbers
+ * @returns formatted number
+ */
+function parsePrice(price) {
+  if (typeof price === 'string') {
+    price = price.replace('€', '')
+    price = parseFloat(price.replace(',', '.'))
+  }
+
+  return price
 }
 
 /**

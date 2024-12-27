@@ -71,26 +71,30 @@
           </p>
 
           <section id="calender">
-            <button class="prev-month-button" onclick="prevMonth()">&#10094;</button>
-            <div class="calender-header">
-              <div class="month-year">
-                <div id="month"></div>
-                <div id="year"></div>
+            <section class="calender-data">
+              <button class="prev-month-button" onclick="prevMonth()">&#10094;</button>
+              <div class="calender-header">
+                <div class="month-year">
+                  <div id="month"></div>
+                  <div id="year"></div>
+                </div>
               </div>
-            </div>
-            <button class="next-month-button" onclick="nextMonth()">&#10095;</button>
-            <div class="calender-days">
-              <div id="monday" class="weekdays left-corner">Maandag</div>
-              <div id="tuesday" class="weekdays">Dinsdag</div>
-              <div id="wednesday" class="weekdays">Woensdag</div>
-              <div id="thursday" class="weekdays">Donderdag</div>
-              <div id="friday" class="weekdays">Vrijdag</div>
-              <div id="saturday" class="weekdays">Zaterdag</div>
-              <div id="sunday" class="weekdays right-corner">Zondag</div>
-            </div>
-            <div class="calender-dates">
-              <!-- Fills with dates of the month-->
-            </div>
+              <button class="next-month-button" onclick="nextMonth()">&#10095;</button>
+              <div class="calender-days">
+                <div id="monday" class="weekdays left-corner">Maandag</div>
+                <div id="tuesday" class="weekdays">Dinsdag</div>
+                <div id="wednesday" class="weekdays">Woensdag</div>
+                <div id="thursday" class="weekdays">Donderdag</div>
+                <div id="friday" class="weekdays">Vrijdag</div>
+                <div id="saturday" class="weekdays">Zaterdag</div>
+                <div id="sunday" class="weekdays right-corner">Zondag</div>
+              </div>
+              <div class="calender-dates">
+                <!-- Fills with dates of the month-->
+              </div>
+            </section>
+            <!-- Hidden at first, appears when selection is unvalid-->
+            <span id="calender-fault">Geselecteerde data is al gekozen, gelieve de selectie aan te passen</span>
           </section>
 
           <section id="legenda">
