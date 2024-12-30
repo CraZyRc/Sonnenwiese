@@ -1,3 +1,39 @@
+/* Root Variables */
+:root {
+
+  /* Standard colors */
+  --calender-color:             #00caca;
+  --calender-weekdays-color:    #007a7b;
+  --calender-om-color:          #009394;
+  --calender-cm-color:          #e9fdfd;
+  --calender-hs-color:          #00bfbf;
+  --calender-blocked-color:     #8b1c00;
+  --calender-selected-color:    #00e9e9;
+
+  /* Summer colors */
+  --s-calender-color:           #ca6f00;
+  --s-calender-weekdays-color:  #9b5800;
+  --s-calender-om-color:        #944500;
+  --s-calender-cm-color:        #fdf5e9;
+  --s-calender-hs-color:        #bf7300;
+  --s-calender-blocked-color:   #8b1c00;
+  --s-calender-selected-color:  #ffaa00;
+  
+
+  /* Winter colors */
+  --w-calender-color:           #00caca;
+  --w-calender-weekdays-color:  #007a7b;
+  --w-calender-om-color:        #009394;
+  --w-calender-cm-color:        #e9fdfd;
+  --w-calender-hs-color:        #00bfbf;
+  --w-calender-blocked-color:   #8b1c00;
+  --w-calender-selected-color:  #00e9e9;
+} 
+
+
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +43,14 @@
 }
 
 html {
-  background-color: #05005b;
-  background-image: linear-gradient(135deg, #05005b 0%, #3cc7e3 100%);
-}
+  /*background: rgb(249, 155, 91);
+  background: linear-gradient(180deg, rgba(249, 155, 91, 1) 0%, rgba(250, 225, 141, 1) 40%, rgba(250, 225, 141, 1) 60%, rgb(39, 187, 184) 100%);
+  */
+  /*background-image: url(../media/images/summer-background.jpg);*/
+  background-image: url(../media/images/winter-background.jpg);
+  background-size: cover;
+  background-position: center;
+  }
 
 h1 {
   font-size: 3rem;
@@ -35,23 +76,34 @@ p {
 
 .inner-background {
   margin: 2%;
-  border-radius: 2rem;
-  border: 1px solid black;
-  background-color: white;
 }
 
 #current-page {
   text-decoration: underline;
 }
 
+/* Ease-in scrolling */
 
+.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease-in, transform 1.5s ease-in;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Header */
 header {
   background-image: url("/Sonnenwiese/resources/media/images/house_sideview.png");
   background-size: cover;
   background-position: center;
-  border-radius: 1rem;
+  border-radius: 2rem;
+  padding-bottom: 1rem;
+  width: 90%;
+  margin: 0 auto;
 }
 
 header h1 {
@@ -64,32 +116,49 @@ header h1 {
 }
 
 header ul {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
   list-style: none;
-  padding: 2rem 0;
-  padding-bottom: 1rem;
-  display: block;
-}
-
-header li {
-  display: inline;
-  margin-left: 1rem;
 }
 
 header a {
-  font-size: 1.2rem;
-  color: white;
   text-decoration: none;
-  margin-bottom: 2rem;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  position: relative;
 }
 
-header a:hover {
+header a::after,
+footer a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  background-color: #3cc7e3;
+  border-radius: 5px;
+  transform: scaleX(0);
+  transition: all 0.6s ease;
+}
+
+header a:not(#current-page):hover::after, 
+footer a:not(#current-page):hover::after {
+  transform: scaleX(1);
+}
+
+header a:not(#current-page):hover,
+footer a:not(#current-page):hover {
   color: #3cc7e3;
 }
 
 .searchbar {
   float: right;
   margin-right: 1rem;
-  margin-top: 14rem;
+  margin-top: 15rem;
   color: white;
 }
 
@@ -102,22 +171,25 @@ header a:hover {
 /* Footer */
 footer {
   border-top: 1px solid gray;
-  border-radius: 0 0 2rem 2rem;
+  border-radius: 2rem;
+  width: 90%;
+  margin: 0 auto;
   background-color: rgb(233, 233, 233);
   height: 5rem;
 }
 
 footer h6 {
-  margin: 1.5rem;
+  margin: 1.75rem;
   font-size: 1.5rem;
   font-weight: lighter;
   display: inline-block;
+  text-align: left;
 }
 
 footer ul {
   list-style: none;
   float: right;
-  margin: 1.5rem 1rem;
+  margin: 1.75rem 1rem;
 }
 
 footer li {
@@ -130,8 +202,6 @@ footer a {
   color: black;
   text-decoration: none;
   margin-bottom: 2rem;
-}
-
-footer a:hover {
-  color: #3cc7e3;
+  padding: 0.5rem;
+  position: relative;
 }

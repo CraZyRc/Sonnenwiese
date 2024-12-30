@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 
 <html lang="nl">
-
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../resources/css/style.css" text="text/css">
-    <link rel="stylesheet" href="../resources/css/prijzen.css" text="text/css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../resources/css/style.css" text="text/css" />
+    <link
+      rel="stylesheet"
+      href="../resources/css/prijzen.css"
+      text="text/css"
+    />
     <title>Sonnenwiese - prijzen</title>
   </head>
 
@@ -17,12 +20,21 @@
         <h2>Zoekbar</h2>
         <form action="" method="post" role="search"></form>
         <label for="searchbar-text"></label>
-        <input type="search" name="searchbar" id="searchbar-text" maxlength="200" size="20" placeholder="Zoeken...">
+        <input
+          type="search"
+          name="searchbar"
+          id="searchbar-text"
+          maxlength="200"
+          size="20"
+          placeholder="Zoeken..."
+        />
       </div>
       <ul>
         <li><a href="../index.html">Algemeen</a></li>
         <li><a href="./fotos.html">Foto's</a></li>
-        <li><a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a></li>
+        <li>
+          <a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a>
+        </li>
         <li><a href="./voorwaarden.html">Voorwaarden</a></li>
         <li><a href="">Links</a></li>
         <li><a href="">Route</a></li>
@@ -30,56 +42,68 @@
       </ul>
     </header>
 
-
     <body>
       <section class="main">
-        <h1>Prijzen 2024/2025</h1>
-        <h3>Zomer/Winter</h3>
+        <section class="prices">
+          <h1>Prijzen 2024/2025</h1>
+          <h3>Zomer/Winter</h3>
 
-        <p>
-          Prijzen zijn per week en de eindschoonmaak wordt één keer bij de totaalprijs gerekend. <br>
-          Hoogseizoen is in de zomer van 01/07 tot 01/09 en in de winter van 21/12/24 tot 05/01/25. <br>
-          Laagseizoen is het tijdvak buiten het hoogseizoen.
-        </p>
+          <p>
+            Prijzen zijn per week en de eindschoonmaak wordt één keer bij de
+            totaalprijs gerekend. <br />
+            Hoogseizoen is in de zomer van 01/07 tot 01/09 en in de winter van
+            21/12/24 tot 05/01/25. <br />
+            Laagseizoen is het tijdvak buiten het hoogseizoen.
+          </p>
 
-        <section id="summer">
-          <h2>Prijzen zomer 2024/2025</h2>
-          <ul>
-            <li>Hoogseizoen:</li><li>€650,-</li>
-            <li>Laagseizoen:</li><li>€450,-</li>
-            <li>Eindschoonmaak</li><li>€50,-</li>
-          </ul>
+          <section id="summer">
+            <h2>Prijzen zomer 2024/2025</h2>
+            <ul>
+              <li>Hoogseizoen:</li>
+              <li>€650,-</li>
+              <li>Laagseizoen:</li>
+              <li>€450,-</li>
+              <li>Eindschoonmaak</li>
+              <li>€50,-</li>
+            </ul>
+          </section>
+
+          <section id="winter">
+            <h2>Prijzen winter 2024/2025</h2>
+            <ul>
+              <li>Hoogseizoen:</li>
+              <li>€1750,-</li>
+              <li>Laagseizoen:</li>
+              <li>€900,-</li>
+              <li>Eindschoonmaak</li>
+              <li>€50,-</li>
+            </ul>
+          </section>
         </section>
 
-        <section id="winter">
-          <h2>Prijzen winter 2024/2025</h2>
-          <ul>
-            <li>Hoogseizoen:</li>
-            <li>€1750,-</li>
-            <li>Laagseizoen:</li>
-            <li>€900,-</li>
-            <li>Eindschoonmaak</li>
-            <li>€50,-</li>
-          </ul>
-        </section>
-
-        <section class="availability">
+        <section class="availability hidden">
           <h1>Beschikbaarheid</h1>
           <p>
-            Hieronder kunt u in onze agenda de tijdsperiode kiezen die u wenst te huren. <br>
-            Ook ziet u hier welke data beschikbaar zijn, welke al geboekt zijn en wat de prijs is van uw verblijf.
+            Hieronder kunt u in onze agenda de tijdsperiode kiezen die u wenst
+            te huren. <br />
+            Ook ziet u hier welke data beschikbaar zijn, welke al geboekt zijn
+            en wat de prijs is van uw verblijf.
           </p>
 
           <section id="calender">
             <section class="calender-data">
-              <button class="prev-month-button" onclick="prevMonth()">&#10094;</button>
+              <button class="prev-month-button" onclick="prevMonth()">
+                &#10094;
+              </button>
               <div class="calender-header">
                 <div class="month-year">
                   <div id="month"></div>
                   <div id="year"></div>
                 </div>
               </div>
-              <button class="next-month-button" onclick="nextMonth()">&#10095;</button>
+              <button class="next-month-button" onclick="nextMonth()">
+                &#10095;
+              </button>
               <div class="calender-days">
                 <div id="monday" class="weekdays left-corner">Maandag</div>
                 <div id="tuesday" class="weekdays">Dinsdag</div>
@@ -94,76 +118,102 @@
               </div>
             </section>
             <!-- Hidden at first, appears when selection is unvalid-->
-            <span id="calender-fault">Geselecteerde data is al gekozen, gelieve de selectie aan te passen</span>
+            <span id="calender-fault"
+              >Geselecteerde data is niet beschikbaar, gelieve de selectie aan
+              te passen</span
+            >
           </section>
 
           <section id="legenda">
             <ul>
-              <li><div class="legenda-other-month"></div><span>Vorige/Volgende maand</span></li>
-              <li><div class="legenda-blocked"></div><span>Onbeschikbaar</span></li>
-              <li><div class="legenda-available"></div><span>Beschikbaar</span></li>
-              <li><div class="legenda-hseason"></div><span>Hoogseizoen</span></li>
-              <li><div class="legenda-selected"></div><span>Geselecteerd</span></li>
+              <li>
+                <div class="legenda-other-month"></div>
+                <span>Vorige/Volgende maand</span>
+              </li>
+              <li>
+                <div class="legenda-blocked"></div>
+                <span>Onbeschikbaar</span>
+              </li>
+              <li>
+                <div class="legenda-available"></div>
+                <span>Beschikbaar</span>
+              </li>
+              <li>
+                <div class="legenda-hseason"></div>
+                <span>Hoogseizoen</span>
+              </li>
+              <li>
+                <div class="legenda-selected"></div>
+                <span>Geselecteerd</span>
+              </li>
             </ul>
-          </section>
-
-          <section class="price-calculator">
-            <h1>Kosten</h1>
-            <p>
-              Selecteer in de agenda hierboven van welke datum tot welke datum wenst te reserveren (aankomstdatum/vertrekdatum). <br>
-              Vervolgens zult u hieronder de totale kosten van de tijdsperiode die u heeft geselecteerd.
-            </p>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Geselecteerde data:</td>
-                  <td id="selected-price">€0,00</td>
-                </tr>
-                <tr>
-                  <td>Schoonmaak kosten:</td>
-                  <td>€50,00</td>
-                </tr>
-                <tr>
-                  <td>totale kosten:</td>
-                  <td id="total-price">€0,00</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section id="contact-form">
-            <h2>Vakantie aanvragen</h2>
-            <form action="send_email.php" method="post"> <!-- TODO: Add mail script-->
-              <label for="name">naam: </label>
-              <input type="text" id="name" name="name" required>
-            
-              <label for="phone-number">telefoonnummer: </label>
-              <input type="text" id="phone-number" name="phone-number" required></input>
-
-              <label for="email">email adres: </label>
-              <input type="text" id="email" name="email" required>
-
-              <label>Geselecteerde data: </label>
-              <div id="selected-dates-display">2023-10-15, 2023-10-16</div> <!-- TODO: replace placeholder for selected dates -->
-              <input type="hidden" id="selected-dates" name="selected_dates" value="2023-10-15, 2023-10-16"> <!-- Ditto for the value here -->
-            
-              <input type="submit" value="Aanvraag versturen">
-            </form>
-
           </section>
         </section>
 
+        <section class="price-calculator hidden">
+          <h1>Kosten</h1>
+          <p>
+            Selecteer in de agenda hierboven van welke datum tot welke datum
+            wenst te reserveren (aankomstdatum/vertrekdatum). <br />
+            Vervolgens zult u hieronder de totale kosten van de tijdsperiode die
+            u heeft geselecteerd.
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <td>Geselecteerde data:</td>
+                <td id="selected-price">€0,00</td>
+              </tr>
+              <tr>
+                <td>Schoonmaak kosten:</td>
+                <td>€50,00</td>
+              </tr>
+              <tr>
+                <td>totale kosten:</td>
+                <td id="total-price">€0,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
 
+        <section class="contact-form hidden">
+          <h2>Vakantie aanvragen</h2>
+          <form action="send_email.php" method="post">
+            <!-- TODO: Add mail script-->
+            <label for="name">naam: </label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="phone-number">telefoonnummer: </label>
+            <input type="text" id="phone-number" name="phone-number" required />
+
+            <label for="email">email adres: </label>
+            <input type="text" id="email" name="email" required />
+
+            <label>Geselecteerde data: </label>
+            <div id="selected-dates-display">2023-10-15, 2023-10-16</div>
+            <!-- TODO: replace placeholder for selected dates -->
+            <input
+              type="hidden"
+              id="selected-dates"
+              name="selected_dates"
+              value="2023-10-15, 2023-10-16"
+            />
+            <!-- Ditto for the value here -->
+
+            <input type="submit" value="Aanvraag versturen" />
+          </form>
+        </section>
       </section>
     </body>
-
 
     <footer>
       <h6>Sonnenwiese</h6>
       <ul>
         <li><a href="../index.html">Algemeen</a></li>
         <li><a href="./fotos.html">Foto's</a></li>
-        <li><a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a></li>
+        <li>
+          <a href="./prijzen.html" id="current-page">Prijzen/Beschikbaarheid</a>
+        </li>
         <li><a href="./voorwaarden.html">Voorwaarden</a></li>
         <li><a href="">Links</a></li>
         <li><a href="">Route</a></li>
@@ -171,5 +221,6 @@
       </ul>
     </footer>
   </div>
-  <script src="../resources/scripts/Calender.js" defer></script>
+  <script src="../resources/scripts/calender.js" defer></script>
+  <script src="../resources/scripts/style.js"></script>
 </html>

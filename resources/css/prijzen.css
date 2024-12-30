@@ -1,19 +1,9 @@
-/* Root Variables */
-:root {
-  --calender-color: #00caca;
-  --calender-weekdays-color: #007a7b;
-  --calender-om-color: #009394;
-  --calender-cm-color: #e9fdfd;
-  --calender-hs-color: #00bfbf;
-  --calender-blocked-color: #8b1c00;
-  --calender-selected-color: #00e9e9;
-}
-
-
 
 /* Body */
 .main {
   line-height: 1.5;
+  text-align: center;
+  background-color: transparent;
 }
 
 .main h2 {
@@ -25,7 +15,8 @@
   display: grid;
   grid-template-columns: repeat(2, 14rem);
   list-style: none;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
 }
 
 .main li {
@@ -33,14 +24,21 @@
   margin-left: 1.5rem;
 }
 
-
-
-/* Availability */
-.availability {
-  margin-top: 4rem;
+/* Bodies */
+.prices,
+.availability,
+.price-calculator,
+.contact-form {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4rem;
+  width: 80%;
+  margin: 4rem auto;
 }
 
 
+
+/* Availability */
 
 /* Calender */
 .calender-data {
@@ -53,7 +51,7 @@
 }
 
 #calender {
-  width: 75%;
+  width: 90%;
   margin: 2rem auto;
   margin-bottom: 1rem;
   border: 1px solid #05005b;
@@ -93,6 +91,7 @@
 
 .prev-month-button,
 .next-month-button {
+  width: 72px;
   justify-self: center;
   border: none;
   outline: none;
@@ -102,6 +101,7 @@
   font-size: 1.5rem;
   color: white;
   padding: 1rem;
+  transition: 0.3s;
 }
 
 .prev-month-button:hover,
@@ -113,6 +113,9 @@
     /* Middle glow */
     0 0 30px rgba(255, 255, 255, 0.7);
     /* Outer glow*/
+  font-size: 2rem;
+  transform: scale(1.1)
+  
 }
 
 button {
@@ -166,7 +169,18 @@ span {
   font-size: 1.2rem;
   background-color: mistyrose;
   margin-top: 1rem;
-  display: none;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  display: block;
+  transition: opacity 1s ease, max-height 0.5s ease;
+}
+
+#calender-fault.active {
+  opacity: 1;
+  max-height: 25px;
+  visibility: visible;
+  transition: opacity 0.5s ease, max-height 1s ease;
 }
 
 
@@ -252,7 +266,7 @@ span {
 
 /* Table layout */
 table {
-  margin: 1.5rem;
+  margin: 1.5rem auto;
 }
 
 td {
